@@ -1,4 +1,3 @@
-
 create database parcial_ii;
 use parcial_ii;
 
@@ -72,3 +71,42 @@ CREATE TABLE matricula (
     FOREIGN KEY (id_ccreadas) REFERENCES clases_creadas(id_ccreadas)
 );
 
+
+
+
+CREATE TABLE carrera (
+    id_carrera INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE clase (
+    id_clase INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(100) NOT NULL,
+    horas_por_semana INT NOT NULL,
+    descripcion TEXT,
+    id_carrera INT NOT NULL,
+    FOREIGN KEY (id_carrera) REFERENCES carrera(id_carrera)
+);
+
+CREATE TABLE seccion (
+    cod_seccion INT PRIMARY KEY AUTO_INCREMENT,
+    id_clase INT NOT NULL,
+    FOREIGN KEY (id_clase) REFERENCES clase(id_clase)
+);
+
+
+CREATE TABLE clases_creadas (
+    id_ccreadas INT PRIMARY KEY AUTO_INCREMENT,
+    aula VARCHAR(10),
+    anio YEAR,
+    id_maestro VARCHAR(20) NOT NULL,
+    cod_seccion INT NOT NULL,
+    FOREIGN KEY (id_maestro) REFERENCES maestro(id_maestro),
+    FOREIGN KEY (cod_seccion) REFERENCES seccion(cod_seccion)
+);
+
+ALTER TABLE clases_creadas 
+ADD COLUMN cod_seccion INT NOT NULL,
+ADD CONSTRAINT fk_cod_seccion FOREIGN KEY (cod_seccion) REFERENCES seccion(cod_seccion);
+
+select * from clases_creadas;
